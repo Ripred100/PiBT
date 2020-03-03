@@ -40,7 +40,7 @@ while not done:
     print("Data received: " + data)
     data_to_send = decode_data(data)
     
-    java.communicate("2")
+    java.communicate("2") #play command, only thing that currently works lol
     
     client_sock.send(data_to_send)
     if int(data) == 0:
