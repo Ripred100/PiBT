@@ -138,25 +138,7 @@ public class PlayAudio
         control.setValue(vol);
     }
 
-    public boolean over()
-    {
 
-        if(clip.getMicrosecondLength()-10==clip.getMicrosecondPosition())
-        {
-
-            status=true;
-        }
-        else
-        {
-            status=false;
-        }
-
-    //    void addLineListener(LineListener listener)
-
-     //   clip.addLineListener();
-
-        return status;
-    }
 
 
 
