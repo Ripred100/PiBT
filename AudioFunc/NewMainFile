@@ -5,11 +5,11 @@ import java.util.Scanner;
 
 public class PlayAudioTest
 {
-    public static int option=0,preOption;
 
     public static void main(String args[]) throws IOException, LineUnavailableException, UnsupportedAudioFileException
     {
         Scanner input= new Scanner(System.in);
+        int option=0,preOption;
 
         PlayAudio test = new PlayAudio(1,3);
 
