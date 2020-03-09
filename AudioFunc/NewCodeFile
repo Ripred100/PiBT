@@ -6,11 +6,11 @@ public class PlayAudio
 {
 
     private long time=0L;
-   public Clip clip;
+    public Clip clip;
     AudioInputStream audioInputStream;
     private static int file;
     public int num1=0;
-    public static boolean status=false;
+    public static boolean status=true;
 
     public PlayAudio(int file, float volume)
     {
@@ -22,23 +22,27 @@ public class PlayAudio
             clip.open(audioInputStream);
             setVolume(volume,clip);
 
-            if(status) {
+            //if(status)
+   //         {
 
 
                 clip.addLineListener(new LineListener() {
 
                     public void update(LineEvent evt) {
 
-                        if (evt.getType() == LineEvent.Type.STOP) {
+                        if (evt.getType() == LineEvent.Type.STOP)
+                        {
                             pausePlay();
+                            status=true;
                             suffle();
 
 
                         }
                     }
                 });
-            }
+      //      }
             clip.start();
+            System.out.println(status);
 
         }
         catch (Exception e)
@@ -52,6 +56,7 @@ public class PlayAudio
     public void pausePlay()
     {
         status=false;
+        System.out.println(status);
         time=clip.getMicrosecondPosition();
         clip.stop();
         clip.close();
@@ -68,6 +73,7 @@ public class PlayAudio
             clip.loop(Clip.LOOP_CONTINUOUSLY);
             clip.setMicrosecondPosition(this.time);
             clip.start();
+
         }
         catch (Exception e)
         {
@@ -86,6 +92,7 @@ public class PlayAudio
             clip = AudioSystem.getClip();
             clip.open(audioInputStream);
             clip.start();
+            status=true;
         }
         catch (Exception e)
         {
@@ -97,6 +104,7 @@ public class PlayAudio
 
     public void previousAudio()
     {
+
         file--;
         try
         {
@@ -104,6 +112,7 @@ public class PlayAudio
             clip = AudioSystem.getClip();
             clip.open(audioInputStream);
             clip.start();
+            status=true;
         }
         catch (Exception e)
         {
@@ -117,20 +126,26 @@ public class PlayAudio
     {
         Random randomNum= new Random();
         num1=randomNum.nextInt(2)+1;
-
-        try
+        if(status)
         {
-            audioInputStream = AudioSystem.getAudioInputStream(new File("C://Users//DarkKnight528491//Desktop/Play/" + num1 +".wav"));
-            clip = AudioSystem.getClip();
-            clip.open(audioInputStream);
-            clip.start();
-        }
-        catch (Exception e)
-        {
-            System.out.println("ERROR: Audio malfunction");
-            e.printStackTrace();
-        }
+            System.out.println(status);
 
+            try
+            {
+                audioInputStream = AudioSystem.getAudioInputStream(new File("C://Users//DarkKnight528491//Desktop/Play/" + num1 + ".wav"));
+                System.out.println(num1);
+                file = num1;
+                clip = AudioSystem.getClip();
+                clip.open(audioInputStream);
+                clip.start();
+                status=true;
+            }
+            catch (Exception e)
+            {
+                System.out.println("ERROR: Audio malfunction");
+                e.printStackTrace();
+            }
+        }
     }
 
 
@@ -140,12 +155,6 @@ public class PlayAudio
 
         control.setValue(vol);
     }
-
-
-
-
-
-
 
 
 }
