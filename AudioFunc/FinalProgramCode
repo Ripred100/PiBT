@@ -21,7 +21,7 @@ public class PlayAudio
             clip = AudioSystem.getClip();
             clip.open(audioInputStream);
             setVolume(volume,clip);
-            
+
                 clip.addLineListener(new LineListener() {
 
                     public void update(LineEvent evt) {
@@ -37,7 +37,7 @@ public class PlayAudio
                         }
                     }
                 });
-      
+
             clip.start();
 
         }
@@ -73,7 +73,7 @@ public class PlayAudio
                         pausePlay();
 
                         suffle();
-                        
+
                     }
                 }
             });
@@ -111,7 +111,7 @@ public class PlayAudio
                         pausePlay();
 
                         suffle();
-                        
+
                     }
                 }
             });
@@ -148,7 +148,7 @@ public class PlayAudio
                         pausePlay();
 
                         suffle();
-                        
+
                     }
                 }
             });
@@ -167,7 +167,7 @@ public class PlayAudio
     {
         Random randomNum= new Random();
         num1=randomNum.nextInt(2)+1;
-        
+
 
             try
             {
@@ -199,7 +199,7 @@ public class PlayAudio
                 System.out.println("ERROR: Audio malfunction");
                 e.printStackTrace();
             }
-            
+
     }
 
 
@@ -212,3 +212,4 @@ public class PlayAudio
 
 
 }
+
