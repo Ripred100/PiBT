@@ -62,8 +62,6 @@ public class PlayAudio
             }
         }
         time=clip.getMicrosecondPosition();
-        clip.stop();
-        clip.close();
     }
 
 
