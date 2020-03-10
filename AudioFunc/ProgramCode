@@ -21,11 +21,7 @@ public class PlayAudio
             clip = AudioSystem.getClip();
             clip.open(audioInputStream);
             setVolume(volume,clip);
-
-            //if(status)
-   //         {
-
-
+            
                 clip.addLineListener(new LineListener() {
 
                     public void update(LineEvent evt) {
@@ -41,7 +37,7 @@ public class PlayAudio
                         }
                     }
                 });
-      //      }
+      
             clip.start();
 
         }
@@ -66,6 +62,22 @@ public class PlayAudio
         {
             audioInputStream = AudioSystem.getAudioInputStream(new File("C://Users//DarkKnight528491//Desktop/Play/" + file +".wav"));
             clip = AudioSystem.getClip();
+
+            clip.addLineListener(new LineListener() {
+
+                public void update(LineEvent evt) {
+                    System.out.println("32");
+                    if (evt.getType() == LineEvent.Type.STOP)
+                    {
+                        System.out.println("35");
+                        pausePlay();
+
+                        suffle();
+                        
+                    }
+                }
+            });
+
             clip.open(audioInputStream);
             clip.loop(Clip.LOOP_CONTINUOUSLY);
             clip.setMicrosecondPosition(this.time);
@@ -88,6 +100,23 @@ public class PlayAudio
             audioInputStream = AudioSystem.getAudioInputStream(new File("C://Users//DarkKnight528491//Desktop/Play/" + file +".wav"));
             clip = AudioSystem.getClip();
             clip.open(audioInputStream);
+
+            clip.addLineListener(new LineListener() {
+
+                public void update(LineEvent evt) {
+                    System.out.println("32");
+                    if (evt.getType() == LineEvent.Type.STOP)
+                    {
+                        System.out.println("35");
+                        pausePlay();
+
+                        suffle();
+                        
+                    }
+                }
+            });
+
+
             clip.start();
         }
         catch (Exception e)
@@ -107,6 +136,23 @@ public class PlayAudio
             audioInputStream = AudioSystem.getAudioInputStream(new File("C://Users//DarkKnight528491//Desktop/Play/" + file +".wav"));
             clip = AudioSystem.getClip();
             clip.open(audioInputStream);
+
+
+            clip.addLineListener(new LineListener() {
+
+                public void update(LineEvent evt) {
+                    System.out.println("32");
+                    if (evt.getType() == LineEvent.Type.STOP)
+                    {
+                        System.out.println("35");
+                        pausePlay();
+
+                        suffle();
+                        
+                    }
+                }
+            });
+
             clip.start();
         }
         catch (Exception e)
@@ -121,8 +167,7 @@ public class PlayAudio
     {
         Random randomNum= new Random();
         num1=randomNum.nextInt(2)+1;
-        //if(status)
-      //  {
+        
 
             try
             {
@@ -130,6 +175,23 @@ public class PlayAudio
                 file = num1;
                 clip = AudioSystem.getClip();
                 clip.open(audioInputStream);
+
+                clip.addLineListener(new LineListener() {
+
+                    public void update(LineEvent evt) {
+                        System.out.println("32");
+                        if (evt.getType() == LineEvent.Type.STOP)
+                        {
+                            System.out.println("35");
+                            pausePlay();
+
+                            suffle();
+
+
+                        }
+                    }
+                });
+
                 clip.start();
             }
             catch (Exception e)
@@ -137,7 +199,7 @@ public class PlayAudio
                 System.out.println("ERROR: Audio malfunction");
                 e.printStackTrace();
             }
-   //     }
+            
     }
 
 
