@@ -1,4 +1,4 @@
-import bluetooth, subprocess
+import socket, subprocess
 from subprocess import STDOUT, PIPE
 
 def decode_data(d):
@@ -13,49 +13,38 @@ def decode_data(d):
     print(result)
     return result
 
+MAC = "DC:A6:32:6E:28:5B"
+port = 4
+
+print(f"Binding socket to MAC adress: {MAC} and port {port}")
+
 
 java = subprocess.Popen('java PlayAudioTest', stdin = PIPE, stdout = PIPE, stderr = STDOUT, shell = True, text = True)
 
-server_sock = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
-uuid = "4abeaf0f-033e-4ab1-acb6-8a087b7ccbff"
 
-port = 1
-server_sock.bind(("", port))
+### heyyyyyyyyyy this is what has changed right hereeeeee ##
+server_sock = socket.socket(socket.AF_BLUETOOTH, socket.SOCK_STREAM, socket.BTPROTO_RFCOMM)
+server_sock.bind((MAC,port))
 server_sock.listen(1)
-bluetooth.advertise_service(server_sock, "PiPlayer Service", uuid)
 
-print("Waiting for connection...")
-client_sock, address = server_sock.accept()
-client_sock.send("Connection accepted")
-print("Accepted connection from " + str(address))
+try:
+    #accepts the client
+    client, adress = server_sock.accept()
+    print(f"connection accepted from {adress}")
+    
+    #loop for printing data recieved 
+    while 1:
+        data = client.recv(1024)
+        if data:
+            print(data.decode("utf-8")
+                  client.send(data)
+ except:
+    print("closing socket")
+    client.close()
+    server_sock.close()
 
-done = False
 
-
-while not done:
-    data = client_sock.recv(1024)
-    data = str(data, 'utf-8')
-    print(data)
-    #client_sock.send("Data received")
-    print("Data received: " + data)
-    data_to_send = decode_data(data)
     
     java.communicate("2") #play command, only thing that currently works lol
     
-    client_sock.send(data_to_send)
-    if int(data) == 0:
-        client_sock.close()
-        server_sock.close()
-        done = True
 
-
-
-#client_sock.send("To get to the other side")
-
-
-
-#nearby_devices = bluetooth.discover_devices()
-#print(nearby_devices)
-
-#for d in nearby_devices:
-#    print(bluetooth.lookup_name(d))
