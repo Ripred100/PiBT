@@ -3,45 +3,42 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.IOException;
 import java.util.Scanner;
 
-public class PlayAudioTest
-{
+public class PlayAudioTest {
 
-    public static void main(String args[]) throws IOException, LineUnavailableException, UnsupportedAudioFileException
+    public static void main(String[] args) throws IOException, LineUnavailableException, UnsupportedAudioFileException
     {
-        Scanner input= new Scanner(System.in);
-        int option=0,preOption;
+        Scanner input = new Scanner(System.in);
+        int option = 0, preOption;
 
-        PlayAudio test = new PlayAudio(1,3);
+        PlayAudio test = new PlayAudio(1);
 
         System.out.println("1.Pause\n2.Resume\n3.NextSong\n4.PreviousSong\n5.Suffle");
 
 
-
-        while(true)
+        while (true)
         {
 
 
+            preOption = option;
 
-            preOption=option;
+            option = input.nextInt();
 
-            option= input.nextInt();
-
-            if(option!=preOption)
+            if (option != preOption)
             {
 
 
-                switch (option) {
+                switch (option)
+                {
                     case 1:
                         test.pausePlay();
                         break;
 
                     case 2:
-                        if(preOption==1)
+                        if (preOption == 1)
                         {
                             test.resumePlay();
                         }
-                        else
-                        {
+                        else {
                             System.out.println("You're already playing the song");
                         }
                         break;
@@ -49,37 +46,28 @@ public class PlayAudioTest
                     case 3:
                         test.pausePlay();
                         test.nextAudio();
-                        option=0;
+                        option = 0;
                         break;
 
                     case 4:
                         test.pausePlay();
                         test.previousAudio();
-                        option=0;
+                        option = 0;
                         break;
 
                     case 5:
-                        if(preOption!=1)
-                        {
+                        if (preOption != 1) {
                             test.pausePlay();
                             test.suffle();
-                            option=0;
+                            option = 0;
+                        } else if (preOption == 1) {
+                            test.suffle();
+                            option = 0;
                         }
-                        else if (preOption==1)
-                         {
-                             test.suffle();
-                             option=0;
-
-                         }
-
                         break;
-
-
                 }
 
-            }
-            else
-            {
+            } else {
                 System.out.println("This option has already been selected");
             }
 
