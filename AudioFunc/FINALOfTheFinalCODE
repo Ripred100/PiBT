@@ -6,7 +6,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
-public class PlayAudio {
+public class PlayAudio
+{
 
     public static boolean status;
     private static int file;
@@ -17,19 +18,23 @@ public class PlayAudio {
     public static LinkedList<String> songs = new LinkedList<String>();
 
     public static boolean shuffle = false;
-    public PlayAudio(int file) {
+    public PlayAudio(int file)
+    {
         PlayAudio.file = file;
-        try {
+        try
+        {
 
             audioInputStream = AudioSystem.getAudioInputStream(new File(PlayAudioTest.fileWay + songs.getFirst() ));
             clip = AudioSystem.getClip();
             clip.open(audioInputStream);
             clip.addLineListener(new LineListener() {
 
-                public void update(LineEvent evt) {
+                public void update(LineEvent evt)
+                {
                  //   System.out.println("29");
                     if (!status)
-                        if (evt.getType() == LineEvent.Type.STOP) {
+                        if (evt.getType() == LineEvent.Type.STOP)
+                        {
                             pausePlay();
                             if(shuffle)
                             suffle();
@@ -40,14 +45,17 @@ public class PlayAudio {
 
             clip.start();
 
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             System.out.println("ERROR: Audio malfunction");
             e.printStackTrace();
         }
 
     }
 
-    public void pausePlay() {
+    public void pausePlay()
+    {
         status = true;
       //  System.out.println("52");
         time = clip.getMicrosecondPosition();
@@ -56,8 +64,10 @@ public class PlayAudio {
         status = false;
     }
 
-    public void resumePlay() {
-        try {
+    public void resumePlay()
+    {
+        try
+        {
 
             audioInputStream = AudioSystem.getAudioInputStream(new File(PlayAudioTest.fileWay+  songs.get(file)));
             clip = AudioSystem.getClip();
@@ -79,16 +89,20 @@ public class PlayAudio {
                 }
             });
             clip.start();
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             System.out.println("ERROR: Audio malfunction");
             e.printStackTrace();
         }
 
     }
 
-    public void nextAudio() {
+    public void nextAudio()
+    {
         file++;
-        try {
+        try
+        {
             // num2=1;
 
             audioInputStream = AudioSystem.getAudioInputStream(new File(PlayAudioTest.fileWay+  songs.get(file) ));
@@ -111,7 +125,8 @@ public class PlayAudio {
 
             clip.start();
 
-        } catch(IndexOutOfBoundsException e)
+        }
+        catch(IndexOutOfBoundsException e)
         {
             try {
                 audioInputStream = AudioSystem.getAudioInputStream(new File(PlayAudioTest.fileWay+  songs.getFirst()));
@@ -135,22 +150,27 @@ public class PlayAudio {
 
                 clip.start();
                 file--;
-            }catch (Exception e1) {
+            }
+            catch (Exception e1)
+            {
                     System.out.println("ERROR: Audio malfunction");
                     e1.printStackTrace();
-                }
+            }
         }
-        catch (Exception e) {
+        catch (Exception e)
+        {
             System.out.println("ERROR: Audio malfunction");
             e.printStackTrace();
         }
 
     }
 
-    public void previousAudio() {
+    public void previousAudio()
+    {
 
         file--;
-        try {
+        try
+        {
             audioInputStream = AudioSystem.getAudioInputStream(new File(PlayAudioTest.fileWay+  songs.get(file) ));
             clip = AudioSystem.getClip();
             clip.open(audioInputStream);
@@ -171,7 +191,8 @@ public class PlayAudio {
             });
 
             clip.start();
-        } catch(IndexOutOfBoundsException e)
+        }
+        catch(IndexOutOfBoundsException e)
             {
                 try {
                     file++;
@@ -206,7 +227,8 @@ public class PlayAudio {
 
     }
 
-    public void suffle() {
+    public void suffle()
+    {
         Random randomNum = new Random();
         num1 = randomNum.nextInt(songs.size()) ;
 
@@ -234,7 +256,9 @@ public class PlayAudio {
             });
 
             clip.start();
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             System.out.println("ERROR: Audio malfunction");
             e.printStackTrace();
         }
@@ -245,3 +269,4 @@ public class PlayAudio {
 
 
 }
+
