@@ -1,0 +1,271 @@
+import javax.sound.sampled.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Random;
+
+public class PlayAudio
+{
+
+    public static boolean status;
+    private static int file;
+    public Clip clip;
+    public int num1 = 0, num2 = 0;
+    AudioInputStream audioInputStream;
+    private long time = 0L;
+    public static LinkedList<String> songs = new LinkedList<String>();
+
+    public static boolean shuffle = false;
+    public PlayAudio(int file)
+    {
+        PlayAudio.file = file;
+        try
+        {
+
+            audioInputStream = AudioSystem.getAudioInputStream(new File(PlayAudioTest.fileWay + songs.getFirst() ));
+            clip = AudioSystem.getClip();
+            clip.open(audioInputStream);
+            clip.addLineListener(new LineListener() {
+
+                public void update(LineEvent evt)
+                {
+                 //   System.out.println("29");
+                    if (!status)
+                        if (evt.getType() == LineEvent.Type.STOP)
+                        {
+                            pausePlay();
+                            if(shuffle)
+                            suffle();
+                            else nextAudio();
+                        }
+                }
+            });
+
+            clip.start();
+
+        }
+        catch (Exception e)
+        {
+            System.out.println("ERROR: Audio malfunction");
+            e.printStackTrace();
+        }
+
+    }
+
+    public void pausePlay()
+    {
+        status = true;
+      //  System.out.println("52");
+        time = clip.getMicrosecondPosition();
+        clip.stop();
+        clip.close();
+        status = false;
+    }
+
+    public void resumePlay()
+    {
+        try
+        {
+
+            audioInputStream = AudioSystem.getAudioInputStream(new File(PlayAudioTest.fileWay+  songs.get(file)));
+            clip = AudioSystem.getClip();
+            clip.open(audioInputStream);
+            clip.loop(Clip.LOOP_CONTINUOUSLY);
+            clip.setMicrosecondPosition(this.time);
+            clip.addLineListener(new LineListener() {
+
+                public void update(LineEvent evt) {
+                   // System.out.println("71");
+
+                    if (!status)
+                        if (evt.getType() == LineEvent.Type.STOP) {
+                            pausePlay();
+                            if(shuffle)
+                                suffle();
+                            else nextAudio();
+                        }
+                }
+            });
+            clip.start();
+        }
+        catch (Exception e)
+        {
+            System.out.println("ERROR: Audio malfunction");
+            e.printStackTrace();
+        }
+
+    }
+
+    public void nextAudio()
+    {
+        file++;
+        try
+        {
+            // num2=1;
+
+            audioInputStream = AudioSystem.getAudioInputStream(new File(PlayAudioTest.fileWay+  songs.get(file) ));
+            clip = AudioSystem.getClip();
+            clip.open(audioInputStream);
+            clip.addLineListener(new LineListener() {
+
+                public void update(LineEvent evt) {
+                //    System.out.println("107");
+
+                    if (!status)
+                        if (evt.getType() == LineEvent.Type.STOP) {
+                            pausePlay();
+                            if(shuffle)
+                                suffle();
+                            else nextAudio();
+                        }
+                }
+            });
+
+            clip.start();
+
+        }
+        catch(IndexOutOfBoundsException e)
+        {
+            try {
+                audioInputStream = AudioSystem.getAudioInputStream(new File(PlayAudioTest.fileWay+  songs.getFirst()));
+                clip = AudioSystem.getClip();
+                clip.open(audioInputStream);
+                //    System.out.println("100");
+                clip.addLineListener(new LineListener() {
+
+                    public void update(LineEvent evt) {
+                        //    System.out.println("107");
+
+                        if (!status)
+                            if (evt.getType() == LineEvent.Type.STOP) {
+                                pausePlay();
+                                if(shuffle)
+                                    suffle();
+                                else nextAudio();
+                            }
+                    }
+                });
+
+                clip.start();
+                file--;
+            }
+            catch (Exception e1)
+            {
+                    System.out.println("ERROR: Audio malfunction");
+                    e1.printStackTrace();
+            }
+        }
+        catch (Exception e)
+        {
+            System.out.println("ERROR: Audio malfunction");
+            e.printStackTrace();
+        }
+
+    }
+
+    public void previousAudio()
+    {
+
+        file--;
+        try
+        {
+            audioInputStream = AudioSystem.getAudioInputStream(new File(PlayAudioTest.fileWay+  songs.get(file) ));
+            clip = AudioSystem.getClip();
+            clip.open(audioInputStream);
+
+
+            clip.addLineListener(new LineListener() {
+
+                public void update(LineEvent evt) {
+                    // System.out.print("130");
+                    if (!status)
+                        if (evt.getType() == LineEvent.Type.STOP) {
+                            pausePlay();
+                            if (shuffle)
+                                suffle();
+                            else nextAudio();
+                        }
+                }
+            });
+
+            clip.start();
+        }
+        catch(IndexOutOfBoundsException e)
+            {
+                try {
+                    file++;
+                    audioInputStream = AudioSystem.getAudioInputStream(new File(PlayAudioTest.fileWay+  songs.get(file)));
+                    clip = AudioSystem.getClip();
+                    clip.open(audioInputStream);
+                    //    System.out.println("100");
+                    clip.addLineListener(new LineListener() {
+
+                        public void update(LineEvent evt) {
+                            //    System.out.println("107");
+
+                            if (!status)
+                                if (evt.getType() == LineEvent.Type.STOP) {
+                                    pausePlay();
+                                    if (shuffle)
+                                        suffle();
+                                    else nextAudio();
+                                }
+                        }
+                    });
+
+                    clip.start();
+                } catch (Exception e1) {
+                    System.out.println("ERROR: Audio malfunction");
+                    e1.printStackTrace();
+                }
+            }catch (Exception e) {
+            System.out.println("ERROR: Audio malfunction");
+            e.printStackTrace();
+        }
+
+    }
+
+    public void suffle()
+    {
+        Random randomNum = new Random();
+        num1 = randomNum.nextInt(songs.size()) ;
+
+
+        try {
+
+          //System.out.println("167");
+            audioInputStream = AudioSystem.getAudioInputStream(new File(PlayAudioTest.fileWay+  songs.get(num1)));
+            file = num1;
+            clip = AudioSystem.getClip();
+            clip.open(audioInputStream);
+
+
+            clip.addLineListener(new LineListener() {
+
+                public void update(LineEvent evt) {
+                    if (!status)
+                        if (evt.getType() == LineEvent.Type.STOP) {
+                            pausePlay();
+                            if(shuffle)
+                                suffle();
+                            else nextAudio();
+                        }
+                }
+            });
+
+            clip.start();
+        }
+        catch (Exception e)
+        {
+            System.out.println("ERROR: Audio malfunction");
+            e.printStackTrace();
+        }
+
+    }
+
+
+
+
+}
